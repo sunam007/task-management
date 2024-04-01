@@ -11,3 +11,7 @@ connectDB();
 app.listen(port, () => {
     console.log("the server is listening at port: " , port);
 })
+
+app.get("/" , (req, res) => {
+    res.send("server is running")
+} )

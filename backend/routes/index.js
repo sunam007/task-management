@@ -1,11 +1,10 @@
-import express from "express";
-
-const router = express.Router();
 import TaskRoute from "./Task.route.js";
+import express from "express";
+const router = express.Router();
 
 const routes = [
   {
-    path: "/task",
+    path: "/tasks",
     route: TaskRoute,
   },
 ];
