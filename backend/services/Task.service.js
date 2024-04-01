@@ -12,7 +12,7 @@ export const addTask = async (body) => {
     return {
       code: httpStatus.CREATED,
       success: true,
-      message: "Task created",
+      message: "successfully created",
       data: response,
     };
   } catch (error) {
@@ -36,6 +36,76 @@ export const getAllTasks = async () => {
     };
   } catch (error) {
     console.log("err at Task.service>>>", error);
+    return {
+      code: httpStatus.INTERNAL_SERVER_ERROR,
+      success: false,
+      message: error?.message,
+      data: [],
+      count: 0,
+    };
+  }
+};
+
+export const updateTask = async (id) => {
+  console.log("mongo id >>", id);
+  try {
+    const response = await TaskModel.Task.findByIdAndUpdate(id, {
+      $set: {
+        status: true,
+      },
+    });
+
+    if (!response) {
+      return {
+        code: httpStatus.NOT_FOUND,
+        success: false,
+        message: "not found",
+      };
+    }
+    if (response?.status) {
+      return {
+        code: httpStatus.BAD_REQUEST,
+        success: false,
+        message: "already completed",
+      };
+    }
+    return {
+      code: httpStatus.OK,
+      success: true,
+      data: response,
+      count: response?.length,
+    };
+  } catch (error) {
+    console.log("err at Task.service>>>", error);
+    return {
+      code: httpStatus.INTERNAL_SERVER_ERROR,
+      success: false,
+      message: error?.message,
+      data: [],
+      count: 0,
+    };
+  }
+};
+
+export const deleteTask = async (id) => {
+  try {
+    const response = await TaskModel.Task.findByIdAndDelete(id);
+
+    if (!response) {
+      return {
+        code: httpStatus.NOT_FOUND,
+        success: false,
+        message: "not found",
+      };
+    }
+
+    return {
+      code: httpStatus.OK,
+      success: true,
+      data: response,
+      message: "successfully deleted",
+    };
+  } catch (error) {
     return {
       code: httpStatus.INTERNAL_SERVER_ERROR,
       success: false,

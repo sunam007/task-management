@@ -10,6 +10,19 @@ export const getAllTasks = async (req, res) => {
   res.status(respone?.code).send(respone);
 };
 
+export const updateTask = async (req, res) => {
+  const id = req?.params?.id;
+
+  const respone = await TaskService.updateTask(id);
+  res.status(respone?.code).send(respone);
+};
+export const deleteTask = async (req, res) => {
+  const id = req?.params?.id;
+
+  const respone = await TaskService.deleteTask(id);
+  res.status(respone?.code).send(respone);
+};
+
 /*
 {
   "data": {

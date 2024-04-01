@@ -12,3 +12,20 @@ export const addTask = [
     .notEmpty()
     .withMessage("this field is required"),
 ];
+
+export const updateTask = [
+  param("id")
+    .isString()
+    .withMessage("must be a string")
+    .isMongoId()
+    .withMessage("must be a valid mongo id"),
+];
+export const deleteTask = [
+  param("id")
+    .isString()
+    .withMessage("must be a string")
+    .isMongoId()
+    .withMessage("must be a valid mongo id"),
+];
+
+// deleteTask

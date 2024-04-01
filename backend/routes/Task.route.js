@@ -11,7 +11,7 @@ router
 
 router
   .route("/:id")
-  .put((req, res) => {})
-  .delete((req, res) => {});
+  .put(TaskValidation.updateTask, validation, TaskController.updateTask)
+  .delete(TaskValidation.deleteTask, validation,TaskController.deleteTask);
 
 export default router;
