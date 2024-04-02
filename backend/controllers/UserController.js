@@ -1,7 +1,7 @@
-import { Us } from "../services/index.js";
+import { UserService } from "../services/index.js";
 
 export const userRegister = async (req, res) => {
-  const respone = await TaskService.addTask(req?.body);
+  const respone = await UserService.registerUser(req?.body);
   res.status(respone?.code).send(respone);
 };
 // export const getAllTasks = async (req, res) => {
