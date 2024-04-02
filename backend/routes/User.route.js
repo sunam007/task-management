@@ -8,8 +8,8 @@ router
   .route("/register")
   .post(UserValidation.userRegister, validation, UserController.userRegister);
 
-// router
-//   .route("/:id")
-//   .delete(TaskValidation.deleteTask, validation, TaskController.deleteTask);
+router
+  .route("/login")
+  .post(UserValidation.userLogin, validation, UserController.userLogin);
 
 export default router;

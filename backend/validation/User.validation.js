@@ -22,3 +22,15 @@ export const userRegister = [
     .notEmpty()
     .withMessage("this field is required"),
 ];
+export const userLogin = [
+  body("email")
+    .isEmail()
+    .withMessage("must be an email")
+    .notEmpty()
+    .withMessage("this field can not be empty"),
+  body("password")
+    .isString()
+    .withMessage("this field must be a string")
+    .notEmpty()
+    .withMessage("this field is required"),
+];

@@ -6,7 +6,7 @@ const TaskSchema = new Schema(
     title: {
       type: String,
       required: [true, "This field is required"],
-    }, // String is shorthand for {type: String}
+    }, 
     description: {
       type: String,
       required: [true, "This field is required"],
