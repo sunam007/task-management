@@ -41,18 +41,20 @@ export const loginUser = async (body) => {
       return {
         code: httpStatus.BAD_REQUEST,
         success: false,
-        message: "invalida email or password",
+        message: "invalid email or password",
         data: [],
       };
     }
 
     const token = getToken(user);
 
+    delete user?.password;
+
     return {
       code: httpStatus.OK,
       success: true,
       token,
-      // data: [],
+      data: user
     };
   } catch (error) {
     return {
