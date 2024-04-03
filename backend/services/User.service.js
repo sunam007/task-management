@@ -1,5 +1,6 @@
 import httpStatus from "http-status";
 import { UserModel } from "../models/index.js";
+import { getToken } from "../utils/auth.js";
 
 export const registerUser = async (body) => {
   try {
@@ -19,8 +20,6 @@ export const registerUser = async (body) => {
       data: response,
     };
   } catch (error) {
-    console.log("err at User.service>>>", error);
-
     return {
       code: httpStatus.INTERNAL_SERVER_ERROR,
       success: false,
@@ -28,11 +27,10 @@ export const registerUser = async (body) => {
     };
   }
 };
+
 export const loginUser = async (body) => {
   try {
     const { email, password } = body;
-
-    console.log("email >> ", email, "password >> ", password);
 
     const user = await UserModel.User.findOne({
       email,
@@ -48,10 +46,13 @@ export const loginUser = async (body) => {
       };
     }
 
+    const token = getToken(user);
+
     return {
       code: httpStatus.OK,
       success: true,
-      data: user,
+      token,
+      // data: [],
     };
   } catch (error) {
     return {

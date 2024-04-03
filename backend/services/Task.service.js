@@ -16,7 +16,6 @@ export const addTask = async (body) => {
       data: response,
     };
   } catch (error) {
-    console.log("err at Task.service>>>", error);
     return {
       code: httpStatus.INTERNAL_SERVER_ERROR,
       success: false,
@@ -35,7 +34,6 @@ export const getAllTasks = async () => {
       count: response?.length,
     };
   } catch (error) {
-    console.log("err at Task.service>>>", error);
     return {
       code: httpStatus.INTERNAL_SERVER_ERROR,
       success: false,
@@ -47,7 +45,6 @@ export const getAllTasks = async () => {
 };
 
 export const updateTask = async (id) => {
-  console.log("mongo id >>", id);
   try {
     const response = await TaskModel.Task.findByIdAndUpdate(id, {
       $set: {
@@ -76,7 +73,6 @@ export const updateTask = async (id) => {
       count: response?.length,
     };
   } catch (error) {
-    console.log("err at Task.service>>>", error);
     return {
       code: httpStatus.INTERNAL_SERVER_ERROR,
       success: false,
