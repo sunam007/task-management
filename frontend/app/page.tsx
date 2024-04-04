@@ -1,5 +1,6 @@
 "use client"
 import { useRouter } from "next/navigation";
+import { ToastContainer } from "react-toastify";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import QueryProvider from "./Providers";
@@ -9,6 +10,7 @@ import Navbar from "./components/Navbar";
 import TaskAddButton from "./components/TaskAddButton";
 import TaskModal from "./components/TaskModal";
 import { isLoggedIn, retrieveUser } from "./utils/retrieveUser";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home() {
   const [taskStatus, setTaskStatus] = useState()
@@ -66,6 +68,7 @@ export default function Home() {
 
   return (
     <QueryProvider>
+      <ToastContainer />
       <main className="max-w-screen-lg mx-auto w-screen max-h-full">
         <Navbar />
         <div className="divider"></div>
@@ -94,10 +97,8 @@ export default function Home() {
               )
             })
           }
-
         </section>
         <TaskModal refetch={refetch} />
-
       </main>
     </QueryProvider>
   );

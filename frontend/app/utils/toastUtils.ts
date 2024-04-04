@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { toast , ToastContainer } from "react-toastify";
 
 type AllowedStrings = "error" | "info" | "success" | "warn";
 
