@@ -18,7 +18,6 @@ app.use(cookieParser());
 app.use("/api/v1", Routes);
 
 //404 not found
-
 app.use((req, res) => {
   res.send({
     code: httpStatus.NOT_FOUND,
