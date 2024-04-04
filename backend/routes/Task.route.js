@@ -8,12 +8,13 @@ const router = express.Router();
 
 router
   .route("/")
-  .get(restrictToLoggedInUser,validation, TaskController.getAllTasks)
+  .get(validation, TaskController.getAllTasks)
   .post(TaskValidation.addTask, validation, TaskController.addTask);
+
 
 router
   .route("/:id")
-  .put(TaskValidation.updateTask, validation, TaskController.updateTask)
+  .patch(TaskValidation.updateTask, validation, TaskController.updateTask)
   .delete(TaskValidation.deleteTask, validation, TaskController.deleteTask);
 
 export default router;

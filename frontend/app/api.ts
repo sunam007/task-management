@@ -1,8 +1,6 @@
 import axios from "axios";
-// var CryptoJS = require("crypto-js");
+import { LOCAL_STORAGE_KEY_TOKEN } from "./config/config";
 
-// import { API_URL, USER_SECRET_KEY } from "@/config/config";
-// import { LOCAL_STORAGE_KEY } from "@/config/constants";
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
@@ -10,15 +8,14 @@ const apiClient = axios.create({
   baseURL: `${API_URL}/api/v1`,
 });
 
-apiClient.interceptors.request.use((config) => {
-   config.headers = {
-    Authorization: `Bearer eeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjBjMGRkZDQwZmMwZmI0MGUxYmJhY2EiLCJmaXJzdE5hbWUiOiJBc2FkIiwibGFzdE5hbWUiOiJTdW5hbSIsImVtYWlsIjoic3VuYW1AZ21haWwuY29tIiwiaWF0IjoxNzEyMTc0MzQ1fQ.aj6R5YdDVOSJV7MuiLyyFGRCuqpxCMJ0aKt5O7nlkvo`,
-  };
-  return config
-});
+const token = window?.localStorage?.getItem(LOCAL_STORAGE_KEY_TOKEN);
 
 export const get = async (endpoint: string) => {
-  const response = await apiClient.get(endpoint);
+  const response = await apiClient.get(endpoint, {
+    headers: {
+      "x-access-token": token,
+    },
+  });
   return response.data;
 };
 

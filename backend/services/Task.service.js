@@ -1,14 +1,16 @@
 import httpStatus from "http-status";
-import { TaskModel } from "../models/index.js";
+import { TaskModel, UserModel } from "../models/index.js";
 
 export const addTask = async (body) => {
   try {
-    const { title, description } = body;
+    const { title, description, email } = body;
 
     const response = await TaskModel.Task.create({
       title,
       description,
+      email,
     });
+
     return {
       code: httpStatus.CREATED,
       success: true,
@@ -24,9 +26,35 @@ export const addTask = async (body) => {
   }
 };
 
-export const getAllTasks = async () => {
+export const getAllTasks = async (email, page, limit) => {
   try {
-    const response = await TaskModel.Task.find({});
+
+    const user = await UserModel.User.findOne({ email });
+
+    if (!user) {
+      return {
+        code: httpStatus.NOT_FOUND,
+        success: false,
+        message: "user not found",
+        data: [],
+        count: 0,
+      };
+    }
+
+    //pagination
+
+    let _page;
+    let _limit;
+
+    _page = page ? page : 1;
+    _limit = limit ? limit : 10;
+
+    const skip = (_page - 1) * _limit;
+
+    const response = await TaskModel.Task.find({ email: email })
+      .skip(skip)
+      .limit(_limit);
+
     return {
       code: httpStatus.OK,
       success: true,
@@ -44,28 +72,28 @@ export const getAllTasks = async () => {
   }
 };
 
-export const updateTask = async (id) => {
+export const updateTask = async (id, body) => {
   try {
+    console.log("body >>", body?.status);
+
     const response = await TaskModel.Task.findByIdAndUpdate(id, {
-      $set: {
-        status: true,
-      },
+      status: body?.status,
     });
 
     if (!response) {
       return {
         code: httpStatus.NOT_FOUND,
         success: false,
-        message: "not found",
+        message: "task not found",
       };
     }
-    if (response?.status) {
-      return {
-        code: httpStatus.BAD_REQUEST,
-        success: false,
-        message: "already completed",
-      };
-    }
+    // if (response?.status) {
+    //   return {
+    //     code: httpStatus.BAD_REQUEST,
+    //     success: false,
+    //     message: "already completed",
+    //   };
+    // }
     return {
       code: httpStatus.OK,
       success: true,

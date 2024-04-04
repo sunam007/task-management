@@ -9,14 +9,22 @@ import { post } from '../api';
 import CustomError from '../components/CustomError';
 import CustomInput from '../components/CustomInput';
 import { encryptData } from '../utils/encrypt';
+import { LOCAL_STORAGE_KEY, LOCAL_STORAGE_KEY_TOKEN } from '../config/config';
+import { useRouter } from 'next/navigation';
+import { isLoggedIn } from '../utils/retrieveUser';
 
 const Login = () => {
-
     const [errorMessage, setErrorMessage] = useState("")
 
+    const router = useRouter()
+
+    const _isLoggedIn = isLoggedIn()
+
+    if(_isLoggedIn){
+        router?.push("/")
+    }
+
     let userSchema = object({
-        // firstName: string().required("First name is required"),
-        // lastName: string().required("Last name is required"),
         email: string().email().required("Email is required"),
         password: string().required("Password is required"),
     });
@@ -34,13 +42,16 @@ const Login = () => {
         async (data) => await post("/users/login", data),
         {
             onSuccess: (res) => {
-                const userInfo = encryptData(res.data);
+                const userInfo = encryptData(res?.data);
                 if (userInfo) {
                     setErrorMessage("");
                     reset()
                 }
-                window.localStorage.setItem("LOCAL_STORAGE_KEY", userInfo);
-                window.localStorage.setItem("LOCAL_STORAGE_KEY_TOKEN", res?.token);
+                window.localStorage.setItem(LOCAL_STORAGE_KEY, userInfo);
+                window.localStorage.setItem(LOCAL_STORAGE_KEY_TOKEN, res?.token);
+
+                router.push("/")
+
 
             },
             onError: (err) => {
@@ -53,6 +64,7 @@ const Login = () => {
 
     const onFormSubmit = (data: any) => {
         window.localStorage.setItem("userEmail", data?.email)
+        console.log("ls key >" , LOCAL_STORAGE_KEY_TOKEN);
         loginMutation.mutate(data);
     };
 

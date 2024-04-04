@@ -15,7 +15,11 @@ const TaskSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    
+    email: {
+      type: String,
+      required: [true, "This field is required"],
+    },
+
   },
   {
     timestamps: true,

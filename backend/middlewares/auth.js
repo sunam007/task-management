@@ -3,7 +3,11 @@ import { getUserFromToken } from "../utils/auth.js";
 
 export const restrictToLoggedInUser = async (req, res, next) => {
   try {
-    const token = req?.cookies?.token;
+    const token = req?.headers["x-access-token"]
+
+    // const token = req?.token
+
+    clg("token received " , token);
 
     let user;
 

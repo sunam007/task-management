@@ -13,10 +13,15 @@ export const registerUser = async (body) => {
       password,
     });
 
+    delete response["password"];
+
+    const token = getToken(response);
+
     return {
       code: httpStatus.CREATED,
       success: true,
       message: "successfully created",
+      token,
       data: response,
     };
   } catch (error) {
@@ -54,7 +59,7 @@ export const loginUser = async (body) => {
       code: httpStatus.OK,
       success: true,
       token,
-      data: user
+      data: user,
     };
   } catch (error) {
     return {

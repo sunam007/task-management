@@ -9,7 +9,7 @@ import { useMutation } from 'react-query';
 import { post } from '../api';
 
 
-const TaskModal = () => {
+const TaskModal = ({ refetch }) => {
 
     let taskSchema = object({
         title: string(),
@@ -23,8 +23,6 @@ const TaskModal = () => {
         formState: { errors, dirtyFields, isLoading },
     } = useForm({ resolver: yupResolver(taskSchema) });
 
-    console.log("dirt >>", dirtyFields);
-
     const isDisabled = dirtyFields?.description || dirtyFields?.title;
 
     const taskCreateMutation = useMutation(
@@ -32,21 +30,12 @@ const TaskModal = () => {
         {
             onSuccess: (res) => {
                 if (res.data) {
-                    reset()
+                    reset();
+                    refetch();
                 }
-                // const userInfo = encryptData(res.data);
-                // if (userInfo) {
-                //     setErrorMessage("");
-                //     reset()
-                // }
-                // window.localStorage.setItem("LOCAL_STORAGE_KEY", userInfo);
-                // window.localStorage.setItem("LOCAL_STORAGE_KEY_TOKEN", res?.token);
-
             },
             onError: (err) => {
-                // if (err && err?.response?.data) {
-                //     setErrorMessage(err?.response?.data?.message);
-                // }
+
             },
         }
     );
@@ -57,8 +46,7 @@ const TaskModal = () => {
         if (email) {
             data["email"] = email
         }
-        console.log("task data ", data);
-        // taskCreateMutation.mutate(data);
+        taskCreateMutation.mutate(data);
     };
 
     return (
@@ -95,14 +83,14 @@ const TaskModal = () => {
                                     <button onClick={handleSubmit(onFormSubmit)} className="btn btn-sm btn-primary">
                                         <FaCheck />
                                     </button>
-
+                                    {/*
                                     <button disabled={isDisabled} className="btn btn-sm btn-warning">
                                         <FaRegPenToSquare />
                                     </button>
 
                                     <button disabled={isDisabled} className="btn btn-sm btn-error">
                                         <FaRegTrashCan />
-                                    </button>
+                                    </button> */}
 
                                 </div>
 

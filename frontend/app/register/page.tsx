@@ -10,6 +10,7 @@ import { post } from '../api';
 import { encryptData } from '../utils/encrypt';
 import CustomError from '../components/CustomError';
 import CustomInput from '../components/CustomInput';
+import { LOCAL_STORAGE_KEY, LOCAL_STORAGE_KEY_TOKEN } from '../config/config';
 
 const Register = () => {
 
@@ -38,8 +39,8 @@ const Register = () => {
                     setErrorMessage("");
                     reset()
                 }
-                window.localStorage.setItem("LOCAL_STORAGE_KEY", userInfo);
-                window.localStorage.setItem("LOCAL_STORAGE_KEY_TOKEN", res?.token);
+                window.localStorage.setItem(LOCAL_STORAGE_KEY, userInfo);
+                window.localStorage.setItem(LOCAL_STORAGE_KEY_TOKEN, res?.token);
 
             },
             onError: (err) => {
@@ -52,6 +53,7 @@ const Register = () => {
 
     const onFormSubmit = (data: any) => {
         window.localStorage.setItem("userEmail", data?.email)
+        console.log("ls key >" , LOCAL_STORAGE_KEY);
         registerMutation.mutate(data);
     };
 
