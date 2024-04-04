@@ -28,7 +28,6 @@ export const addTask = async (body) => {
 
 export const getAllTasks = async (email, page, limit) => {
   try {
-
     const user = await UserModel.User.findOne({ email });
 
     if (!user) {
@@ -60,6 +59,8 @@ export const getAllTasks = async (email, page, limit) => {
       success: true,
       data: response,
       count: response?.length,
+      page: _page,
+      limit: _limit,
     };
   } catch (error) {
     return {
