@@ -6,7 +6,7 @@ const TaskSchema = new Schema(
     title: {
       type: String,
       required: [true, "This field is required"],
-    }, 
+    },
     description: {
       type: String,
       required: [true, "This field is required"],
@@ -15,6 +15,7 @@ const TaskSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    
   },
   {
     timestamps: true,
