@@ -11,10 +11,20 @@ import { encryptData } from '../(utils)/encrypt';
 import CustomError from '../(components)/CustomError';
 import CustomInput from '../(components)/CustomInput';
 import { LOCAL_STORAGE_KEY, LOCAL_STORAGE_KEY_TOKEN } from '../(config)/config';
+import { useRouter } from 'next/navigation';
+import { isLoggedIn } from '../(utils)/retrieveUser';
 
 const Register = () => {
 
     const [errorMessage, setErrorMessage] = useState("")
+
+    const router = useRouter()
+
+    const _isLoggedIn = isLoggedIn()
+
+    if (_isLoggedIn) {
+        router?.replace("/")
+    }
 
     let userSchema = object({
         firstName: string().required("First name is required"),
@@ -44,6 +54,8 @@ const Register = () => {
                     window.localStorage.setItem(LOCAL_STORAGE_KEY, userInfo);
                     window.localStorage.setItem(LOCAL_STORAGE_KEY_TOKEN, res?.token);
                 }
+
+                router.replace("/")
 
             },
             onError: (err) => {
