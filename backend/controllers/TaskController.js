@@ -13,8 +13,6 @@ export const getAllTasks = async (req, res) => {
 
     const { page, limit } = req?.query;
 
-    console.log("page = ", page, "limit = ", limit);
-
     let user;
 
     if (token !== undefined) {
@@ -43,8 +41,6 @@ export const updateTask = async (req, res) => {
   const id = req?.params?.id;
 
   const body = req?.body;
-
-  console.log("update task id >", id);
 
   const respone = await TaskService.updateTask(id, body);
   res.status(respone?.code).send(respone);

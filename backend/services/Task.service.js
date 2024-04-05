@@ -75,7 +75,6 @@ export const getAllTasks = async (email, page, limit) => {
 
 export const updateTask = async (id, body) => {
   try {
-    console.log("body >>", body?.status);
 
     const response = await TaskModel.Task.findByIdAndUpdate(id, {
       status: body?.status,

@@ -1,0 +1,24 @@
+{
+  "name": "task-management",
+  "version": "1.0.0",
+  "description": "fullstack task management app with jwt authentication",
+  "scripts": {
+    "start": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\"",
+    "setup": "bash ./setup.sh",
+    "install": "bash ./install.sh",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sunam007/task-management.git"
+  },
+  "author": "asaduzzaman sunam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sunam007/task-management/issues"
+  },
+  "homepage": "https://github.com/sunam007/task-management#readme",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
