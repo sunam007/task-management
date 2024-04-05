@@ -2,13 +2,16 @@ import {
   LOCAL_STORAGE_KEY,
   LOCAL_STORAGE_KEY_TOKEN,
   USER_SECRET_KEY,
-} from "../config/config";
+} from "../(config)/config";
 
 var CryptoJS = require("crypto-js");
 
 export const retrieveUser = () => {
   try {
-    const setedUserInfo = localStorage.getItem(LOCAL_STORAGE_KEY);
+    let setedUserInfo;
+    if (typeof window !== "undefined") {
+      setedUserInfo = localStorage.getItem(LOCAL_STORAGE_KEY);
+    }
     const decryptUserInfo = CryptoJS.AES.decrypt(
       setedUserInfo,
       USER_SECRET_KEY
@@ -25,7 +28,9 @@ export const retrieveUser = () => {
 
 export const clearLocalStorage = () => {
   try {
-    localStorage.removeItem(LOCAL_STORAGE_KEY);
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(LOCAL_STORAGE_KEY);
+    }
   } catch (e) {
     return null;
   }
@@ -34,7 +39,11 @@ export const clearLocalStorage = () => {
 export const isLoggedIn = () => {
   const user = retrieveUser();
 
-  const token = localStorage.getItem(LOCAL_STORAGE_KEY_TOKEN);
+  let token;
+
+  if (typeof window !== "undefined") {
+    token = window.localStorage.getItem(LOCAL_STORAGE_KEY_TOKEN);
+  }
 
   if (user?.email && token) {
     return true;
@@ -44,9 +53,10 @@ export const isLoggedIn = () => {
 };
 
 export const logOut = () => {
-  localStorage.removeItem(LOCAL_STORAGE_KEY);
-  localStorage.removeItem(LOCAL_STORAGE_KEY_TOKEN);
-  localStorage.removeItem("userEmail");
-
-  window.location.reload();
+  if (typeof window !== "undefined") {
+    window.localStorage.removeItem(LOCAL_STORAGE_KEY);
+    window.localStorage.removeItem(LOCAL_STORAGE_KEY_TOKEN);
+    window.localStorage.removeItem("userEmail");
+    window.location.reload();
+  }
 };

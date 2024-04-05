@@ -41,7 +41,13 @@ const TaskModal = ({ refetch }) => {
     );
 
     const onFormSubmit = (data: any) => {
-        const email = window.localStorage.getItem("userEmail")
+        let email;
+
+        if (typeof window !== "undefined") {
+
+            email = window.localStorage.getItem("userEmail")
+        }
+
 
         if (email) {
             data["email"] = email
@@ -55,7 +61,6 @@ const TaskModal = ({ refetch }) => {
                 <div className="modal-box block">
                     <div className="modal-action block">
                         <form
-                            // onSubmit={handleSubmit(onFormSubmit)}
                             method="dialog"
                             noValidate
                         >
@@ -83,15 +88,7 @@ const TaskModal = ({ refetch }) => {
                                     <button onClick={handleSubmit(onFormSubmit)} className="btn btn-sm btn-primary">
                                         <FaCheck />
                                     </button>
-                                    {/*
-                                    <button disabled={isDisabled} className="btn btn-sm btn-warning">
-                                        <FaRegPenToSquare />
-                                    </button>
-
-                                    <button disabled={isDisabled} className="btn btn-sm btn-error">
-                                        <FaRegTrashCan />
-                                    </button> */}
-
+                                   
                                 </div>
 
                             </div>

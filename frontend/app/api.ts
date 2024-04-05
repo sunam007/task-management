@@ -1,6 +1,5 @@
 import axios from "axios";
-import { LOCAL_STORAGE_KEY_TOKEN } from "./config/config";
-
+import { LOCAL_STORAGE_KEY_TOKEN } from "./(config)/config";
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
@@ -8,7 +7,11 @@ const apiClient = axios.create({
   baseURL: `${API_URL}/api/v1`,
 });
 
-const token = window?.localStorage?.getItem(LOCAL_STORAGE_KEY_TOKEN);
+let token;
+
+if (typeof window !== "undefined") {
+  token = window?.localStorage?.getItem(LOCAL_STORAGE_KEY_TOKEN);
+}
 
 export const get = async (endpoint: string) => {
   const response = await apiClient.get(endpoint, {

@@ -1,16 +1,16 @@
 "use client"
 import Link from 'next/link';
-import { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { object, string } from 'yup';
 
 import { post } from '../api';
-import { encryptData } from '../utils/encrypt';
-import CustomError from '../components/CustomError';
-import CustomInput from '../components/CustomInput';
-import { LOCAL_STORAGE_KEY, LOCAL_STORAGE_KEY_TOKEN } from '../config/config';
+import { encryptData } from '../(utils)/encrypt';
+import CustomError from '../(components)/CustomError';
+import CustomInput from '../(components)/CustomInput';
+import { LOCAL_STORAGE_KEY, LOCAL_STORAGE_KEY_TOKEN } from '../(config)/config';
 
 const Register = () => {
 
@@ -39,8 +39,11 @@ const Register = () => {
                     setErrorMessage("");
                     reset()
                 }
-                window.localStorage.setItem(LOCAL_STORAGE_KEY, userInfo);
-                window.localStorage.setItem(LOCAL_STORAGE_KEY_TOKEN, res?.token);
+                if (typeof window !== "undefined") {
+
+                    window.localStorage.setItem(LOCAL_STORAGE_KEY, userInfo);
+                    window.localStorage.setItem(LOCAL_STORAGE_KEY_TOKEN, res?.token);
+                }
 
             },
             onError: (err) => {
@@ -52,8 +55,9 @@ const Register = () => {
     );
 
     const onFormSubmit = (data: any) => {
-        window.localStorage.setItem("userEmail", data?.email)
-        console.log("ls key >" , LOCAL_STORAGE_KEY);
+        if (typeof window !== "undefined") {
+            window.localStorage.setItem("userEmail", data?.email)
+        }
         registerMutation.mutate(data);
     };
 

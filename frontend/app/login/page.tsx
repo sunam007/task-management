@@ -1,17 +1,17 @@
 "use client"
-import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { object, string } from 'yup';
 import { post } from '../api';
-import CustomError from '../components/CustomError';
-import CustomInput from '../components/CustomInput';
-import { encryptData } from '../utils/encrypt';
-import { LOCAL_STORAGE_KEY, LOCAL_STORAGE_KEY_TOKEN } from '../config/config';
-import { useRouter } from 'next/navigation';
-import { isLoggedIn } from '../utils/retrieveUser';
+import CustomError from '../(components)/CustomError';
+import CustomInput from '../(components)/CustomInput';
+import { LOCAL_STORAGE_KEY, LOCAL_STORAGE_KEY_TOKEN } from '../(config)/config';
+import { encryptData } from '../(utils)/encrypt';
+import { isLoggedIn } from '../(utils)/retrieveUser';
 
 const Login = () => {
     const [errorMessage, setErrorMessage] = useState("")
@@ -20,8 +20,8 @@ const Login = () => {
 
     const _isLoggedIn = isLoggedIn()
 
-    if(_isLoggedIn){
-        router?.push("/")
+    if (_isLoggedIn) {
+        router?.replace("/")
     }
 
     let userSchema = object({
@@ -35,7 +35,7 @@ const Login = () => {
         resetField,
         register,
         handleSubmit,
-        formState: { errors, dirtyFields },
+        formState: { errors },
     } = useForm({ resolver: yupResolver(userSchema) });
 
     const loginMutation = useMutation(
@@ -47,13 +47,15 @@ const Login = () => {
                     setErrorMessage("");
                     reset()
                 }
-                window.localStorage.setItem(LOCAL_STORAGE_KEY, userInfo);
-                window.localStorage.setItem(LOCAL_STORAGE_KEY_TOKEN, res?.token);
+                if (typeof window !== "undefined") {
 
-                router.push("/")
+                    window.localStorage.setItem(LOCAL_STORAGE_KEY, userInfo);
+                    window.localStorage.setItem(LOCAL_STORAGE_KEY_TOKEN, res?.token);
+                }
 
-
+                router.replace("/")
             },
+
             onError: (err) => {
                 if (err && err?.response?.data) {
                     setErrorMessage(err?.response?.data?.message);
@@ -63,8 +65,10 @@ const Login = () => {
     );
 
     const onFormSubmit = (data: any) => {
-        window.localStorage.setItem("userEmail", data?.email)
-        console.log("ls key >" , LOCAL_STORAGE_KEY_TOKEN);
+        if (typeof window !== "undefined") {
+
+            window.localStorage.setItem("userEmail", data?.email)
+        }
         loginMutation.mutate(data);
     };
 

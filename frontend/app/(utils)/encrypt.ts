@@ -1,4 +1,4 @@
-import { USER_SECRET_KEY } from "../config/config";
+import { USER_SECRET_KEY } from "../(config)/config";
 
 const CryptoJS = require("crypto-js");
 

@@ -1,16 +1,22 @@
 "use client"
+import dynamic from 'next/dynamic';
 import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useMutation, useQuery } from "react-query";
 import { ToastContainer } from "react-toastify";
-import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import QueryProvider from "./Providers";
-import { deleteApi, get, patch } from "./api";
-import Card from "./components/Card";
-import Navbar from "./components/Navbar";
-import TaskAddButton from "./components/TaskAddButton";
-import TaskModal from "./components/TaskModal";
-import { isLoggedIn, retrieveUser } from "./utils/retrieveUser";
 import 'react-toastify/dist/ReactToastify.css';
+import Card from "./(components)/Card";
+import Navbar from "./(components)/Navbar";
+import TaskAddButton from "./(components)/TaskAddButton";
+import { isLoggedIn, retrieveUser } from "./(utils)/retrieveUser";
+import { deleteApi, get, patch } from "./api";
+import QueryProvider from "./Providers";
+// import TaskModal from "./(components)/TaskModal";
+
+const TaskModal = dynamic(() => import("./(components)/TaskModal"), {
+  ssr: false, // Set ssr to false to exclude from server-side rendering
+});
+
 
 export default function Home() {
   const [taskStatus, setTaskStatus] = useState()
@@ -19,12 +25,16 @@ export default function Home() {
 
   const _isLoggedIn: boolean | null = isLoggedIn()
 
-  if (_isLoggedIn === null) {
-    router.replace("/login")
-  }
+  useEffect(() => {
+    if (_isLoggedIn === null) {
+      router.replace("/login")
+    }
+
+  }, [])
+
+
 
   const user = retrieveUser()
-
 
   const { data, refetch } = useQuery({
     queryKey: ['all tasks', user],

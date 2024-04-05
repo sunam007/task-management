@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import React from 'react';
-import { clearLocalStorage, isLoggedIn, logOut, retrieveUser } from '../utils/retrieveUser';
+import { isLoggedIn, logOut, retrieveUser } from '../(utils)/retrieveUser';
 
 const Navbar = () => {
 
@@ -23,8 +22,8 @@ const Navbar = () => {
                     _isLoggedIn
                         ?
                         <button
-                        className="btn btn-outline btn-error"
-                        onClick={() => logOut()}
+                            className="btn btn-outline btn-error"
+                            onClick={() => logOut()}
                         >Logout
                         </button>
                         :

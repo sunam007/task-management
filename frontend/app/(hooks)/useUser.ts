@@ -1,4 +1,4 @@
-import { retrieveUser } from "../utils/retrieveUser";
+import { retrieveUser } from "../(utils)/retrieveUser";
 import { useState, useEffect } from "react";
 
 export default function useUser() {

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { FaCheck, FaRegPenToSquare, FaRegTrashCan } from "react-icons/fa6";
+import { useEffect } from 'react';
+import { FaCheck, FaRegTrashCan } from "react-icons/fa6";
 
 const Card = (
     { title,
@@ -13,8 +13,6 @@ const Card = (
     }) => {
 
     const statusText = status ? "complete" : "incomplete"
-
-    console.log("status in the card", status);
 
     useEffect(() => {
         setTaskStatus(status)
